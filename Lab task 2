@@ -1,0 +1,59 @@
+#include<iostream>
+#include<string.h>
+using namespace std;
+
+class Car{
+	string Brandname;
+	string Model;
+	string availability_status;
+	float price;
+	
+	public:
+		Car()
+		{
+			Brandname="unknown";
+			Model="generic";
+			price=0.0;
+			availability_status= "available";
+		}
+		
+		void update(string n, string m, float p, string a)
+	    {
+	    	Brandname=n;
+	    	Model=m;
+	        price=p;
+	        availablity_status=a;
+		}
+		
+		void rental(string b)
+		{
+			if(b=="available")
+			{
+				availability_status==b;
+				cout<<"THE CAR IS AVAILABLE FOR RENT"<<endl;
+			}
+			
+			else
+			{
+				cout<<"NOT AVAILABLE."<<<endl;
+			}
+		}
+	    
+		
+		void display()
+		{
+			cout<<"---------------------"<<endl;
+			cout<<"BRAND NAME: "<<Brandname<<endl;
+			cout<<"MODEL: "<<Model<<endl;
+			cout<<"PRICE: "<<price<<endl;
+			cout<<"AVAILABILITY STATUS: "<<rental()<<endl;
+		}
+};
+
+int main()
+{
+	Car c1;
+    c1.display();
+    c1.update("KIA","GENERIC",100000.00,"NOT AVAILABLE");
+    
+}
