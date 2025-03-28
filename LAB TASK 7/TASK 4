@@ -1,0 +1,118 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+
+class Person {
+protected:
+    string name;
+    int age;
+    string contactNumber;
+    string address;
+
+public:
+    Person(string n, int a, string contact, string addr = "") 
+        : name(n), age(a), contactNumber(contact), address(addr) {}
+    virtual void displayInfo() {
+        cout << "Name: " << name << "\nAge: " << age 
+             << "\nContact: " << contactNumber << "\nAddress: " << address << endl;
+    }
+    virtual void updateInfo(string newContact, string newAddress) {
+        contactNumber = newContact;
+        address = newAddress;
+        cout << "Info Updated.\n";
+    }
+};
+
+class Patient : public Person {
+    int patientID;
+    string medicalHistory;
+    string doctorAssigned;
+
+public:
+    Patient(string n, int a, string contact, int id, string history, string doctor, string addr = "")
+        : Person(n, a, contact, addr), patientID(id), medicalHistory(history), doctorAssigned(doctor) {}
+    void displayInfo() override {
+        Person::displayInfo();
+        cout << "Patient ID: " << patientID << "\nMedical History: " << medicalHistory 
+             << "\nDoctor Assigned: " << doctorAssigned << endl;
+    }
+};
+
+class Doctor : public Person {
+    string specialization;
+    float consultationFee;
+    vector<string> patientsList;
+
+public:
+    Doctor(string n, int a, string contact, string spec, float fee, string addr = "") 
+        : Person(n, a, contact, addr), specialization(spec), consultationFee(fee) {}
+    void addPatient(string patient) {
+        patientsList.push_back(patient);
+    }
+    void displayInfo() override {
+        Person::displayInfo();
+        cout << "Specialization: " << specialization << "\nConsultation Fee: $" << consultationFee 
+             << "\nPatients List: ";
+        for (string p : patientsList) cout << p << " ";
+        cout << endl;
+    }
+};
+
+class Nurse : public Person {
+    string assignedWard;
+    string shiftTimings;
+
+public:
+    Nurse(string n, int a, string contact, string ward, string shift, string addr = "")
+        : Person(n, a, contact, addr), assignedWard(ward), shiftTimings(shift) {}
+    void displayInfo() override {
+        Person::displayInfo();
+        cout << "Assigned Ward: " << assignedWard << "\nShift Timings: " << shiftTimings << endl;
+    }
+};
+
+class Administrator : public Person {
+    string department;
+    float salary;
+
+public:
+    Administrator(string n, int a, string contact, string dept, float sal, string addr = "")
+        : Person(n, a, contact, addr), department(dept), salary(sal) {}
+    void updateInfo(string newContact, string newAddress, float newSalary) {
+        Person::updateInfo(newContact, newAddress);
+        salary = newSalary;
+        cout << "Salary Updated to $" << salary << endl;
+    }
+    void displayInfo() override {
+        Person::displayInfo();
+        cout << "Department: " << department << "\nSalary: $" << salary << endl;
+    }
+};
+
+int main() {
+    Patient p("John Doe", 30, "123-456-7890", 101, "Diabetes", "Dr. Smith");
+    Doctor d("Dr. Smith", 45, "456-789-0123", "Cardiology", 200);
+    Nurse n("Alice", 28, "789-012-3456", "ICU", "Night");
+    Administrator a("Bob", 35, "012-345-6789", "HR", 5000);
+
+    d.addPatient("John Doe");
+    d.addPatient("Jane Doe");
+
+    cout << "\n--- Patient Info ---\n";
+    p.displayInfo();
+
+    cout << "\n--- Doctor Info ---\n";
+    d.displayInfo();
+
+    cout << "\n--- Nurse Info ---\n";
+    n.displayInfo();
+
+    cout << "\n--- Administrator Info ---\n";
+    a.displayInfo();
+    a.updateInfo("111-222-3333", "New York", 6000);
+
+    cout << "\n--- Updated Administrator Info ---\n";
+    a.displayInfo();
+
+    return 0;
+}
