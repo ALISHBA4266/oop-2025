@@ -16,6 +16,14 @@ public:
     virtual void displayProductInfo() {
         cout << "Product ID: " << productID << "\nProduct Name: " << productName << "\nPrice: " << price << "\nStock Quantity: " << stockQuantity << endl;
     }
+    Product operator+(float increase) {
+        this->price += increase;
+        return *this;
+    }
+    friend ostream& operator<<(ostream &out, const Product &p) {
+        out << "Product ID: " << p.productID << "\nProduct Name: " << p.productName << "\nPrice: " << p.price << "\nStock Quantity: " << p.stockQuantity << endl;
+        return out;
+    }
 };
 
 class Electronics : public Product {
@@ -65,16 +73,40 @@ public:
     }
 };
 
+class Book : public Product {
+    string author;
+    string genre;
+
+public:
+    Book(int id, string name, float p, int stock, string auth, string gen) 
+        : Product(id, name, p, stock), author(auth), genre(gen) {}
+    void displayProductInfo() override {
+        Product::displayProductInfo();
+        cout << "Author: " << author << "\nGenre: " << genre << endl;
+    }
+};
+
 int main() {
     Electronics e(101, "Smartphone", 1000, 50, "2 Years", "Samsung");
     Clothing c(102, "T-Shirt", 25, 100, "M", "Black", "Cotton");
     FoodItem f(103, "Milk", 2, 200, "2025-06-15", 100);
+    Book b(104, "The Alchemist", 15, 300, "Paulo Coelho", "Fiction");
 
+    cout << "\n--- Electronics ---\n";
     e.displayProductInfo();
+
+    cout << "\n--- Clothing ---\n";
     c.displayProductInfo();
+
+    cout << "\n--- FoodItem ---\n";
     f.displayProductInfo();
 
-    cout << "Total price of 6 milk packs: " << f.calculateTotalPrice(6) << endl;
+    cout << "\n--- Book ---\n";
+    b.displayProductInfo();
+
+    cout << "\nTotal price of 6 milk packs: $" << f.calculateTotalPrice(6) << endl;
+    c = c + 5;
+    cout << "\nAfter price increase:\n" << c;
 
     return 0;
 }
