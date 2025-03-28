@@ -1,0 +1,80 @@
+#include<iostream>
+using namespace std;
+
+class Product {
+protected:
+    int productID;
+    string productName;
+    float price;
+    int stockQuantity;
+
+public:
+    Product(int id, string name, float p, int stock) : productID(id), productName(name), price(p), stockQuantity(stock) {}
+    virtual float calculateTotalPrice(int quantity) {
+        return price * quantity;
+    }
+    virtual void displayProductInfo() {
+        cout << "Product ID: " << productID << "\nProduct Name: " << productName << "\nPrice: " << price << "\nStock Quantity: " << stockQuantity << endl;
+    }
+};
+
+class Electronics : public Product {
+    string warrantyPeriod;
+    string brand;
+
+public:
+    Electronics(int id, string name, float p, int stock, string warranty, string br) 
+        : Product(id, name, p, stock), warrantyPeriod(warranty), brand(br) {}
+    void displayProductInfo() override {
+        Product::displayProductInfo();
+        cout << "Warranty Period: " << warrantyPeriod << "\nBrand: " << brand << endl;
+    }
+};
+
+class Clothing : public Product {
+    string size;
+    string color;
+    string fabricMaterial;
+
+public:
+    Clothing(int id, string name, float p, int stock, string sz, string clr, string fabric) 
+        : Product(id, name, p, stock), size(sz), color(clr), fabricMaterial(fabric) {}
+    float applyDiscount() {
+        return price * 0.9;
+    }
+    void displayProductInfo() override {
+        Product::displayProductInfo();
+        cout << "Size: " << size << "\nColor: " << color << "\nFabric Material: " << fabricMaterial << endl;
+    }
+};
+
+class FoodItem : public Product {
+    string expirationDate;
+    int calories;
+
+public:
+    FoodItem(int id, string name, float p, int stock, string expiry, int cal) 
+        : Product(id, name, p, stock), expirationDate(expiry), calories(cal) {}
+    float calculateTotalPrice(int quantity) override {
+        if (quantity > 5) return price * quantity * 0.85;
+        return price * quantity;
+    }
+    void displayProductInfo() override {
+        Product::displayProductInfo();
+        cout << "Expiration Date: " << expirationDate << "\nCalories: " << calories << endl;
+    }
+};
+
+int main() {
+    Electronics e(101, "Smartphone", 1000, 50, "2 Years", "Samsung");
+    Clothing c(102, "T-Shirt", 25, 100, "M", "Black", "Cotton");
+    FoodItem f(103, "Milk", 2, 200, "2025-06-15", 100);
+
+    e.displayProductInfo();
+    c.displayProductInfo();
+    f.displayProductInfo();
+
+    cout << "Total price of 6 milk packs: " << f.calculateTotalPrice(6) << endl;
+
+    return 0;
+}
