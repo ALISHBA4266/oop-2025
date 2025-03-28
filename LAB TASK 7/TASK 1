@@ -1,0 +1,78 @@
+#include<iostream>
+using namespace std;
+
+class Device {
+protected:
+    int deviceID;
+    string deviceName;
+    bool status;
+    string location;
+
+public:
+    Device(int id, string name, bool stat, string loc) : deviceID(id), deviceName(name), status(stat), location(loc) {}
+    void turnOn() { status = true; }
+    void turnOff() { status = false; }
+    bool getStatus() { return status; }
+    virtual void displayInfo() {
+        cout << "Device ID: " << deviceID << "\nDevice Name: " << deviceName << "\nStatus: " << (status ? "On" : "Off") << "\nLocation: " << location << endl;
+    }
+};
+
+class Light : public Device {
+    int brightnessLevel;
+    string colorMode;
+
+public:
+    Light(int id, string name, bool stat, string loc, int brightness, string mode) 
+        : Device(id, name, stat, loc), brightnessLevel(brightness), colorMode(mode) {}
+    void displayInfo() override {
+        Device::displayInfo();
+        cout << "Brightness Level: " << brightnessLevel << "\nColor Mode: " << colorMode << endl;
+    }
+};
+
+class Thermostat : public Device {
+    float temperature;
+    string mode;
+    float targetTemperature;
+
+public:
+    Thermostat(int id, string name, bool stat, string loc, float temp, string m, float targetTemp) 
+        : Device(id, name, stat, loc), temperature(temp), mode(m), targetTemperature(targetTemp) {}
+    float getStatus() { return temperature; }
+};
+
+class SecurityCamera : public Device {
+    string resolution;
+    bool recordingStatus;
+    bool nightVisionEnabled;
+
+public:
+    SecurityCamera(int id, string name, bool stat, string loc, string res, bool recStat, bool nightVision) 
+        : Device(id, name, stat, loc), resolution(res), recordingStatus(recStat), nightVisionEnabled(nightVision) {}
+    void turnOn() { recordingStatus = true; }
+};
+
+class SmartPlug : public Device {
+    float powerConsumption;
+    int timerSetting;
+
+public:
+    SmartPlug(int id, string name, bool stat, string loc, float power, int timer) 
+        : Device(id, name, stat, loc), powerConsumption(power), timerSetting(timer) {}
+    void turnOff() { cout << "Power usage logged" << endl; }
+};
+
+int main() {
+    Light l(1, "Living Room Light", false, "Living Room", 75, "Warm");
+    Thermostat t(2, "Bedroom Thermostat", true, "Bedroom", 22.5, "Cooling", 24.0);
+    SecurityCamera c(3, "Front Door Camera", true, "Entrance", "1080p", true, true);
+    SmartPlug s(4, "Heater Plug", true, "Bedroom", 1500, 30);
+
+    l.displayInfo();
+    t.displayInfo();
+    c.displayInfo();
+    s.displayInfo();
+
+    return 0;
+}
