@@ -1,0 +1,57 @@
+#include <iostream>
+using namespace std;
+
+class Vector2D {
+private:
+    double x, y;
+
+public:
+    Vector2D(double x = 0, double y = 0) {
+        this->x = x;
+        this->y = y;
+    }
+
+    Vector2D operator+(const Vector2D& v) {
+        return Vector2D(x + v.x, y + v.y);
+    }
+
+    Vector2D operator-(const Vector2D& v) {
+        return Vector2D(x - v.x, y - v.y);
+    }
+
+    Vector2D operator*(double scalar) {
+        return Vector2D(x * scalar, y * scalar);
+    }
+
+    friend double dotProduct(const Vector2D& a, const Vector2D& b);
+    friend ostream& operator<<(ostream& out, const Vector2D& v);
+};
+
+double dotProduct(const Vector2D& a, const Vector2D& b) {
+    return a.x * b.x + a.y * b.y;
+}
+
+ostream& operator<<(ostream& out, const Vector2D& v) {
+    out << "(" << v.x << ", " << v.y << ")";
+    return out;
+}
+
+int main() {
+    Vector2D v1(3, 4);
+    Vector2D v2(1, 2);
+
+    Vector2D add = v1 + v2;
+    Vector2D sub = v1 - v2;
+    Vector2D scaled = v1 * 2;
+
+    double dot = dotProduct(v1, v2);
+
+    cout << "v1: " << v1 << endl;
+    cout << "v2: " << v2 << endl;
+    cout << "v1 + v2: " << add << endl;
+    cout << "v1 - v2: " << sub << endl;
+    cout << "v1 * 2: " << scaled << endl;
+    cout << "Dot Product: " << dot << endl;
+
+    return 0;
+}
