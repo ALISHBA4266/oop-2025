@@ -1,0 +1,84 @@
+#include<iostream>
+using namespace std;
+class MenuItem{
+    string dishName;
+    double price;
+
+    public:
+    MenuItem(string d, double p)
+    {
+        dishName=d;
+        price = p;
+    }
+    void set_name(string n)
+    {
+        dishName = n;
+    }
+
+    string getNmae()
+    {
+        return dishName;
+    }
+
+    void set_price(double pr)
+    {
+        price = pr;
+    }
+
+    double  getPrice()
+    {
+        return price;
+    }
+
+
+
+    virtual void showDetail()=0;
+    virtual void prepare()=0;
+};
+
+class Appetizer: public MenuItem{
+    public:
+    Appetizer(string d, double p):MenuItem(d,p){}
+
+    void showDetail()
+    {
+        cout<<"DISH NAME: "<<getNmae()<<endl;
+        cout<<"PRICE: $"<<getPrice()<<endl;
+    }
+
+    void prepare()
+    {
+        cout<<"PREPARING DISH: "<<getNmae()<<endl;
+        cout<<"PREPARATION OF APPETIZER IN PROCESS, PLEASE WAIT......."<<endl;
+        cout<<"PREPARATION DONE."<<endl;
+    }
+};
+
+class MainCourse: public MenuItem{
+    public:
+    MainCourse(string d, double p):MenuItem(d,p){}
+
+    void showDetail()
+    {
+        cout<<"======MAIN COURSE======"<<endl;
+        cout<<"DISH NAME: "<<getNmae()<<endl;
+        cout<<"PRICE: $"<<getPrice()<<endl;
+    }
+
+    void prepare()
+    {
+        cout<<"PREPARING DISH: "<<getNmae()<<endl;
+        cout<<"PREPARATION OF MAIN COURSE IN PROCESS, PLEASE WAIT......."<<endl;
+        cout<<"PREPARATION DONE."<<endl;
+    }
+};
+int main()
+{
+    MenuItem* m1=new Appetizer("PARATHA",30.8);
+    m1->showDetail();
+    m1->prepare();
+    MenuItem* m2=new MainCourse("CHEESE ROLL AND BIRYANI",150.7);
+    m2->showDetail();
+    m2->prepare();
+
+}
