@@ -1,0 +1,64 @@
+#include<iostream>
+using namespace std;
+class Patient{
+    string name;
+    string Id;
+
+    public:
+    Patient(string n, string i)
+    {
+        name=n;
+        Id=i;
+    }
+
+    virtual void displayTreatment()=0;
+    virtual void calculateCost()=0;
+};
+
+class InPatient: public Patient{
+    public:
+    InPatient(string n, string i):Patient(n,i){}
+
+    void displayTreatment()
+    {
+        cout<<"TREATMENT OF INPATIENTS: "<<endl;
+        cout<<"MILD TREATMENT REQUIRED"<<endl;
+    }
+
+    void calculateCost()
+    {
+        cout<<"COST IS: $600"<<endl;
+    }
+
+};
+
+class OutPatient:public Patient
+{
+    public:
+    OutPatient(string n, string i):Patient(n,i){}
+
+    void displayTreatment()
+    {
+        cout<<"TREATMENT OF OUTPATIENTS: "<<endl;
+        cout<<"NO TREATMENT REQUIRED"<<endl;
+    }
+
+    void calculateCost()
+    {
+        cout<<"COST IS: $0"<<endl;
+    }
+
+};
+
+int main()
+{
+    Patient* p1= new InPatient("lia","123KQ");
+    p1->displayTreatment();
+    p1->calculateCost();
+
+    Patient* p2 = new OutPatient("ZEC","234WE");
+    p2->displayTreatment();
+    p2->calculateCost();
+
+    //OutPatient p2
+}
