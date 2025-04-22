@@ -1,0 +1,80 @@
+#include<iostream>
+using namespace std;
+class Shipment{
+    string TrackingNumber;
+    double weight;
+
+    public:
+    Shipment(string t, double w)
+    {
+        TrackingNumber = t;
+        weight = w;
+    }
+
+    void set_TrackingNumber(string tr)
+    {
+        TrackingNumber = tr;
+    }
+
+    void set_weight(double we)
+    {
+        weight = we;
+    }
+
+    string get_track()
+    {
+        return TrackingNumber;
+    }
+
+    double get_weight()
+    {
+        return weight;
+    }
+
+    virtual void estimateDeliveryTime()=0;
+    virtual void showDetails()=0;
+};
+
+class AirFright: public Shipment{
+    public:
+    AirFright(string t, double w):Shipment(t,w){}
+
+    void estimateDeliveryTime()
+    {
+        cout<<"=========EDT====================="<<endl;
+        cout<<"THE ESTIMATED DELIVERY TIME FOR THROUGH ARIFRIGHT IS: 20HRS"<<endl;
+    }
+
+    void showDetails()
+    {
+        cout<<"TRACKING NUMBER IS: "<<get_track()<<endl;
+        cout<<"WEIGHT IS: "<<get_weight()<<endl;
+    }
+};
+class GroundShipment: public Shipment{
+    public:
+    GroundShipment(string t, double w):Shipment(t,w){}
+
+    void estimateDeliveryTime()
+    {
+        cout<<"=========EDT====================="<<endl;
+        cout<<"THE ESTIMATED DELIVERY TIME FOR THROUGH GROUND SHIPMENT IS: 2HRS"<<endl;
+    }
+
+    void showDetails()
+    {
+       // cout<<"================DEATIALS============"<<endl;
+        cout<<"TRACKING NUMBER IS: "<<get_track()<<endl;
+        cout<<"WEIGHT IS: "<<get_weight()<<endl;
+    }
+};
+int main()
+{
+    Shipment* s1= new AirFright("234HQR3K",344.8);
+    s1->estimateDeliveryTime();
+    s1->showDetails();
+
+    Shipment* s2= new GroundShipment("AJJIK2311",234.6);
+    s2->estimateDeliveryTime();
+    s2->showDetails();
+}
