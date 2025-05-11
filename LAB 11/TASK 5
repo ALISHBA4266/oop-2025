@@ -1,0 +1,52 @@
+#include <iostream>
+#include <stdexcept>
+
+class NegativeStockException : public std::exception {
+};
+
+class OverCapacityException : public std::exception {
+};
+
+template <typename T>
+class InventoryItem {
+    T stock;
+    T maxCapacity;
+public:
+    InventoryItem(T maxCap) : stock(0), maxCapacity(maxCap) {}
+
+    void setStock(T value) {
+        std::cout << "Attempting to set stock to " << value;
+        if (value > maxCapacity) {
+            std::cout << " (max " << maxCapacity << ")..." << std::endl;
+            throw OverCapacityException();
+        } else if (value < 0) {
+            std::cout << "..." << std::endl;
+            throw NegativeStockException();
+        } else {
+            std::cout << "..." << std::endl;
+            stock = value;
+        }
+    }
+};
+
+int main() {
+    InventoryItem<int> item(100);
+
+    try {
+        item.setStock(-5);
+    } catch (const NegativeStockException& e) {
+        std::cout << "Caught NegativeStockException - what(): " << e.what() << std::endl;
+    } catch (const std::exception& e) {
+        std::cout << "Caught std::exception - what(): " << e.what() << std::endl;
+    }
+
+    try {
+        item.setStock(120);
+    } catch (const OverCapacityException& e) {
+        std::cout << "Caught OverCapacityException - what(): " << e.what() << std::endl;
+    } catch (const std::exception& e) {
+        std::cout << "Caught std::exception - what(): " << e.what() << std::endl;
+    }
+
+    return 0;
+}
